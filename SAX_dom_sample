@@ -1,0 +1,24 @@
+#sax model test
+import string
+from xml.parsers.expat import ParserCreate
+
+#define a sax processer
+class DefaultSaxHandler:
+    def start_element(self, name, attrs):
+        self.name = name
+        print('element: %s, attributes: %s' %(name, str(attrs)))
+
+    def end_element(self, name):
+        print('end element: %s' %name) 
+
+    def char_data(self, text):
+        if text.strip():
+            print("%s's text is %s" % (self.name, text))
+
+hanlder = DefaultSaxHandler()
+parser = ParserCreate()
+parser.StartElementHandler = hanlder.start_element#find some function's tag
+parser.EndElementHandler = handler.end_element
+praser.CharacterDataHandler = hanlder.char_data
+with open('book.xml', 'r') as f:
+    parser.Parser(f.read())
